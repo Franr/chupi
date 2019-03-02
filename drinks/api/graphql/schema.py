@@ -1,5 +1,6 @@
 from graphene_django import DjangoObjectType
 import graphene
+from graphql import GraphQLError
 
 from drinks.models import Drink, Ingredient
 
@@ -39,4 +40,41 @@ class Query(graphene.ObjectType):
         return Ingredient.objects.all()
 
 
-schema = graphene.Schema(query=Query)
+class CreateDrink(graphene.Mutation):
+    class Arguments:
+        name = graphene.String()
+        ingredients = graphene.List(graphene.Int)
+
+    ok = graphene.Boolean()
+    drink = graphene.Field(lambda: DrinkType)
+
+    def mutate(self, info, name, ingredients):
+        if not ingredients:
+            raise GraphQLError("Ingredient list can't be empty")
+
+        drink = Drink.objects.create(name=name)
+        for ing in ingredients:
+            drink.ingredients.add(ing)
+
+        return CreateDrink(drink=drink, ok=True)
+
+
+class CreateIngredient(graphene.Mutation):
+    class Arguments:
+        name = graphene.String()
+
+    ok = graphene.Boolean()
+    ingredient = graphene.Field(lambda: IngredientType)
+
+    def mutate(self, info, name):
+        ingredient = Ingredient.objects.create(name=name)
+
+        return CreateIngredient(ingredient=ingredient, ok=True)
+
+
+class Mutation(graphene.ObjectType):
+    create_drink = CreateDrink.Field()
+    create_ingredient = CreateIngredient.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
