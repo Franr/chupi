@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # third-party
     "rest_framework",
+    "graphene_django",
     # first-party
     "drinks",
 ]
@@ -126,3 +127,5 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ]
 }
+
+GRAPHENE = {"SCHEMA": "drinks.api.graphql.schema.schema"}

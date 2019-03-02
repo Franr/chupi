@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from drinks.api.rest.routers import drinks_router
+from drinks.api.graphql.urls import graphql_urlpatterns
 from drinks.urls import drinks_templates_urlpatterns
 
 urlpatterns = [
@@ -26,4 +27,6 @@ urlpatterns = [
     # Rest API
     path("api-auth/", include("rest_framework.urls")),
     path("api-rest/", include(drinks_router.urls)),
+    # GraphQL API
+    path("api-graphql/", include(graphql_urlpatterns)),
 ]
