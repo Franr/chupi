@@ -4,7 +4,7 @@
     <h2>Drinks</h2>
     <ul>
         {% for drink in object_list %}
-            <li>{{ drink.name }}</li>
+            <li>{{ drink.id }}: {{ drink.name }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

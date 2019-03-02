@@ -4,9 +4,13 @@ from drinks.models import Drink, Ingredient
 
 
 class DrinkSerializer(serializers.HyperlinkedModelSerializer):
+    ingredients = serializers.PrimaryKeyRelatedField(
+        many=True, allow_empty=False, queryset=Ingredient.objects.all()
+    )
+
     class Meta:
         model = Drink
-        fields = ("id", "name")
+        fields = ("id", "name", "ingredients")
 
 
 class IngredientSerializer(serializers.HyperlinkedModelSerializer):
