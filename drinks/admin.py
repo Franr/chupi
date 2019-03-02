@@ -7,6 +7,7 @@ from drinks.models import Drink, Ingredient
 class IngredientAdmin(admin.ModelAdmin):
     ordering = ("name",)
     list_display = ("id", "name")
+    search_fields = ("name",)
 
 
 @admin.register(Drink)
@@ -14,3 +15,4 @@ class IngredientAdmin(admin.ModelAdmin):
     ordering = ("name",)
     list_display = ("id", "name")
     filter_horizontal = ("ingredients",)
+    search_fields = ("name",)
