@@ -13,4 +13,4 @@ class IngredientAdmin(admin.ModelAdmin):
 class IngredientAdmin(admin.ModelAdmin):
     ordering = ("name",)
     list_display = ("id", "name")
-    filter_horizontal = ('ingredients', )
+    filter_horizontal = ("ingredients",)
