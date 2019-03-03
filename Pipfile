@@ -8,6 +8,7 @@ ipython = "==7.3.0"
 black = "==18.9b0"
 ipdb = "*"
 pre-commit = "*"
+pyyaml = "==4.2b1"
 
 [packages]
 pytz = "==2018.9"
