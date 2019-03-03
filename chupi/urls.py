@@ -23,7 +23,7 @@ from drinks.urls import drinks_templates_urlpatterns
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Template views
-    path("", include(drinks_templates_urlpatterns)),
+    path("", include(drinks_templates_urlpatterns, namespace="template")),
     # Rest API
     path("api-auth/", include("rest_framework.urls")),
     path("api-rest/", include(drinks_router.urls)),

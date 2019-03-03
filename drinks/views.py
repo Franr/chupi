@@ -1,10 +1,10 @@
-from django.views.generic import ListView, DetailView
+from django.views import generic
 from drinks.models import Drink
 
 
-class DrinkList(ListView):
+class IndexView(generic.ListView):
     model = Drink
 
 
-class DrinkDetailView(DetailView):
+class DetailView(generic.DetailView):
     model = Drink

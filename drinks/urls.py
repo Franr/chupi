@@ -1,8 +1,8 @@
 from django.urls import path
 
-from drinks.views import DrinkList, DrinkDetailView
+from drinks.views import IndexView, DetailView
 
-drinks_templates_urlpatterns = [
-    path("drinks/<int:pk>/", DrinkDetailView.as_view(), name="drink-detail"),
-    path("drinks/", DrinkList.as_view()),
-]
+drinks_templates_urlpatterns = ([
+    path("drinks/<int:pk>/", DetailView.as_view(), name="detail"),
+    path("drinks/", IndexView.as_view(), name="index"),
+], 'drinks')
