@@ -7,6 +7,7 @@ verify_ssl = true
 ipython = "==7.3.0"
 black = "==18.9b0"
 ipdb = "*"
+pre-commit = "*"
 
 [packages]
 pytz = "==2018.9"
