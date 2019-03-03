@@ -4,6 +4,8 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+ipython = "==7.3.0"
+black = "==18.9b0"
 
 [packages]
 pytz = "==2018.9"
@@ -11,7 +13,6 @@ Django = "==2.1.7"
 djangorestframework = "==3.9.1"
 markdown = "==3.0.1"
 django-filter = "==2.1.0"
-black = "==18.9b0"
 graphene-django = "==2.2.0"
 
 [requires]

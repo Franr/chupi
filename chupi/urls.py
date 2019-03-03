@@ -16,17 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from drinks.api.rest.routers import drinks_router
+from drinks.api.rest.routers import rest_urlpatterns
 from drinks.api.graphql.urls import graphql_urlpatterns
 from drinks.urls import drinks_templates_urlpatterns
 
 urlpatterns = [
+    # Admin
     path("admin/", admin.site.urls),
     # Template views
     path("", include(drinks_templates_urlpatterns, namespace="template")),
     # Rest API
     path("api-auth/", include("rest_framework.urls")),
-    path("api-rest/", include(drinks_router.urls)),
+    path("api-rest/", include(rest_urlpatterns, namespace="rest")),
     # GraphQL API
     path("api-graphql/", include(graphql_urlpatterns)),
 ]
