@@ -6,7 +6,11 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from drinks.models import Drink, Ingredient
-from drinks.api.rest.serializers import DrinkSerializer, IngredientSerializer
+from drinks.api.rest.serializers import (
+    DrinkSerializer,
+    IngredientSerializer,
+    DrinkWriteSerializer,
+)
 
 
 class UrlTests(TestCase):

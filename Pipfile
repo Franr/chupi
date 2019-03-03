@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 ipython = "==7.3.0"
 black = "==18.9b0"
+ipdb = "*"
 
 [packages]
 pytz = "==2018.9"
