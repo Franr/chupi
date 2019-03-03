@@ -69,7 +69,9 @@ class SerializersTests(TestCase):
         )
 
     def test_drink_write_serializer(self):
-        serializer = DrinkWriteSerializer(data={"name": "Empty", "ingredients": [self.whisky.id]})
+        serializer = DrinkWriteSerializer(
+            data={"name": "Empty", "ingredients": [self.whisky.id]}
+        )
         self.assertTrue(serializer.is_valid())
 
     def test_drink_write_deserializer(self):
@@ -81,9 +83,7 @@ class SerializersTests(TestCase):
     def test_drink_write_empty_ingredients_validation(self):
         serializer = DrinkWriteSerializer(data={"name": "Empty", "ingredients": []})
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(
-            serializer.errors["ingredients"][0].code, "empty"
-        )
+        self.assertEqual(serializer.errors["ingredients"][0].code, "empty")
 
     def test_ingredient_serializer(self):
         self.assertDictEqual(
