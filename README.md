@@ -25,7 +25,7 @@ From continuous integration to servers configuration and deployments, including:
 | ------ | ---- | --------- | --- |
 |:hourglass_flowing_sand:|Service on the Cloud|AWS|https://aws.amazon.com/
 |:heavy_check_mark:|Continous Integration Platform|Travis|https://travis-ci.org/
-|:hourglass_flowing_sand:|Code Quality / Linter|Landscape|https://landscape.io/
+|:heavy_check_mark:|Code Linter|Black|https://black.readthedocs.io/en/stable/
 |:hourglass_flowing_sand:|Tests Coverage|Coveralls|https://coveralls.io/
 |:hourglass_flowing_sand:|Deployments Playbooks|Ansible|https://www.ansible.com/
 |:hourglass_flowing_sand:|Docker Image Generation|Docker Hub|https://hub.docker.com/
