@@ -24,7 +24,7 @@ From continuous integration to servers configuration and deployments, including:
 | status | type | framework | url |
 | ------ | ---- | --------- | --- |
 |:hourglass_flowing_sand:|Service on the Cloud|AWS|https://aws.amazon.com/
-|:hourglass_flowing_sand:|Continous Integration Platform|Travis|https://travis-ci.org/
+|:heavy_check_mark:|Continous Integration Platform|Travis|https://travis-ci.org/
 |:hourglass_flowing_sand:|Code Quality / Linter|Landscape|https://landscape.io/
 |:hourglass_flowing_sand:|Tests Coverage|Coveralls|https://coveralls.io/
 |:hourglass_flowing_sand:|Deployments Playbooks|Ansible|https://www.ansible.com/
