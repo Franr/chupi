@@ -6,7 +6,9 @@ install:
   - pipenv sync --dev
 script:
   - black --check .
-  - python manage.py test
+  - coverage run --source=drinks manage.py test
+after_success:
+  - coveralls
 
 notifications:
   email: false
