@@ -62,7 +62,7 @@ class APITestCase(TestCase):
 
     def test_create_drink(self):
         query = """
-        mutation ($name: String, $ingredients: [Int]){
+        mutation ($name: String, $ingredients: [Int]) {
             createDrink(name: $name, ingredients: $ingredients) {
                 ok,
                 drink {
@@ -76,7 +76,6 @@ class APITestCase(TestCase):
             }
         }
         """
-        self.maxDiff = None
         self.assertEqual(
             self.query(
                 query,
@@ -94,6 +93,53 @@ class APITestCase(TestCase):
                             "name": "Whisky on the rock",
                             "ingredients": [
                                 {"id": "1", "name": "Whisky"},
+                                {"id": "3", "name": "Ice Cube"},
+                            ],
+                        },
+                    }
+                }
+            },
+        )
+
+    def test_update_drink(self):
+        query = """
+        mutation ($drink_id: Int, $name: String, $ingredients: [Int]) {
+            updateDrink(drinkId: $drink_id, name: $name, ingredients: $ingredients) {
+                ok,
+                drink {
+                    id,
+                    name,
+                    ingredients {
+                        id,
+                        name
+                    }
+                }
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(
+                query,
+                variables={
+                    "drink_id": self.whiscola.id,
+                    "name": "Whiscola on the rock",
+                    "ingredients": [
+                        self.whisky.id,
+                        self.coca_cola.id,
+                        self.ice_cube.id,
+                    ],
+                },
+            ),
+            {
+                "data": {
+                    "updateDrink": {
+                        "ok": True,
+                        "drink": {
+                            "id": "1",
+                            "name": "Whiscola on the rock",
+                            "ingredients": [
+                                {"id": "1", "name": "Whisky"},
+                                {"id": "2", "name": "Coca Cola"},
                                 {"id": "3", "name": "Ice Cube"},
                             ],
                         },
@@ -135,6 +181,33 @@ class APITestCase(TestCase):
                     "createIngredient": {
                         "ok": True,
                         "ingredient": {"id": "4", "name": "Vodka"},
+                    }
+                }
+            },
+        )
+
+    def test_update_ingredient(self):
+        query = """
+        mutation ($ingredient_id: Int, $name: String) {
+            updateIngredient(ingredientId: $ingredient_id, name: $name) {
+                ok,
+                ingredient {
+                    id,
+                    name
+                }
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(
+                query,
+                variables={"ingredient_id": self.whisky.id, "name": "Whisky Jamenson"},
+            ),
+            {
+                "data": {
+                    "updateIngredient": {
+                        "ok": True,
+                        "ingredient": {"id": "1", "name": "Whisky Jamenson"},
                     }
                 }
             },

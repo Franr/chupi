@@ -59,6 +59,33 @@ class CreateDrink(graphene.Mutation):
         return CreateDrink(drink=drink, ok=True)
 
 
+class UpdateDrink(graphene.Mutation):
+    class Arguments:
+        drink_id = graphene.Int()
+        name = graphene.String()
+        ingredients = graphene.List(graphene.Int)
+
+    ok = graphene.Boolean()
+    drink = graphene.Field(lambda: DrinkType)
+
+    def mutate(self, info, drink_id, name, ingredients):
+        try:
+            drink = Drink.objects.get(id=drink_id)
+        except Drink.DoesNotExist:
+            raise GraphQLError("No drinks found with that id")
+
+        if not ingredients:
+            raise GraphQLError("Ingredient list can't be empty")
+
+        drink.name = name
+        drink.ingredients.clear()
+        for ing in ingredients:
+            drink.ingredients.add(ing)
+        drink.save()
+
+        return CreateDrink(drink=drink, ok=True)
+
+
 class CreateIngredient(graphene.Mutation):
     class Arguments:
         name = graphene.String()
@@ -72,9 +99,31 @@ class CreateIngredient(graphene.Mutation):
         return CreateIngredient(ingredient=ingredient, ok=True)
 
 
+class UpdateIngredient(graphene.Mutation):
+    class Arguments:
+        ingredient_id = graphene.Int()
+        name = graphene.String()
+
+    ok = graphene.Boolean()
+    ingredient = graphene.Field(lambda: IngredientType)
+
+    def mutate(self, info, ingredient_id, name):
+        try:
+            ingredient = Ingredient.objects.get(id=ingredient_id)
+        except Drink.DoesNotExist:
+            raise GraphQLError("No ingredients found with that id")
+
+        ingredient.name = name
+        ingredient.save()
+
+        return CreateIngredient(ingredient=ingredient, ok=True)
+
+
 class Mutation(graphene.ObjectType):
     create_drink = CreateDrink.Field()
+    update_drink = UpdateDrink.Field()
     create_ingredient = CreateIngredient.Field()
+    update_ingredient = UpdateIngredient.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
