@@ -29,5 +29,5 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api-rest/", include(rest_urlpatterns, namespace="rest")),
     # GraphQL API
-    path("api-graphql/", include(graphql_urlpatterns)),
+    path("api-graphql/", include(graphql_urlpatterns, namespace="graphql")),
 ]
