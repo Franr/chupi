@@ -2,6 +2,7 @@ from graphene_django import DjangoObjectType
 import graphene
 from graphql import GraphQLError
 
+from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND
 from drinks.models import Drink, Ingredient
 
 
@@ -72,10 +73,10 @@ class UpdateDrink(graphene.Mutation):
         try:
             drink = Drink.objects.get(id=drink_id)
         except Drink.DoesNotExist:
-            raise GraphQLError("No drinks found with that id")
+            raise GraphQLError(DRINK_NOT_FOUND)
 
         if not ingredients:
-            raise GraphQLError("Ingredient list can't be empty")
+            raise GraphQLError(INGREDIENTS_EMPTY)
 
         drink.name = name
         drink.ingredients.clear()
@@ -111,7 +112,7 @@ class UpdateIngredient(graphene.Mutation):
         try:
             ingredient = Ingredient.objects.get(id=ingredient_id)
         except Drink.DoesNotExist:
-            raise GraphQLError("No ingredients found with that id")
+            raise GraphQLError(INGREDIENTS_EMPTY)
 
         ingredient.name = name
         ingredient.save()
