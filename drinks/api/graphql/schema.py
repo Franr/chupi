@@ -51,7 +51,7 @@ class CreateDrink(graphene.Mutation):
 
     def mutate(self, info, name, ingredients):
         if not ingredients:
-            raise GraphQLError("Ingredient list can't be empty")
+            raise GraphQLError(INGREDIENTS_EMPTY)
 
         drink = Drink.objects.create(name=name)
         for ing in ingredients:
