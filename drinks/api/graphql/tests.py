@@ -67,7 +67,6 @@ class SchemaMutationsValidationsTests(TestCase):
             None,
             bad_id,
             "Water",
-            [],
         )
 
 
