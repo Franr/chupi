@@ -4,8 +4,8 @@ from django.test import TestCase
 from django.urls import reverse
 from graphql import GraphQLError
 
-from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND
-from drinks.api.graphql.schema import CreateDrink, UpdateDrink
+from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
+from drinks.api.graphql.schema import CreateDrink, UpdateDrink, UpdateIngredient
 from drinks.models import Drink, Ingredient
 
 
@@ -24,20 +24,50 @@ class SchemaMutationsValidationsTests(TestCase):
     def test_create_drink_empty_ingredients_validation(self):
         drink_schema = CreateDrink()
         self.assertRaisesMessage(
-            GraphQLError, INGREDIENTS_EMPTY, drink_schema.mutate, None, "Test", []
+            GraphQLError,
+            INGREDIENTS_EMPTY,
+            drink_schema.mutate,
+            None,
+            "Fernet Cola",
+            [],
         )
 
     def test_update_drink_empty_ingredients_validation(self):
         drink_schema = UpdateDrink()
-        wid = self.whiscola.id
         self.assertRaisesMessage(
-            GraphQLError, INGREDIENTS_EMPTY, drink_schema.mutate, None, wid, "Test", []
+            GraphQLError,
+            INGREDIENTS_EMPTY,
+            drink_schema.mutate,
+            None,
+            self.whiscola.id,
+            "Whisky Jameson",
+            [],
         )
 
     def test_update_drink_wrong_id_validation(self):
         drink_schema = UpdateDrink()
+        bad_id = 1000
         self.assertRaisesMessage(
-            GraphQLError, DRINK_NOT_FOUND, drink_schema.mutate, None, 100, "Test", []
+            GraphQLError,
+            DRINK_NOT_FOUND,
+            drink_schema.mutate,
+            None,
+            bad_id,
+            "Whisky Jameson",
+            [],
+        )
+
+    def test_update_ingredient_wrong_id_validation(self):
+        drink_schema = UpdateIngredient()
+        bad_id = 1000
+        self.assertRaisesMessage(
+            GraphQLError,
+            INGREDIENT_NOT_FOUND,
+            drink_schema.mutate,
+            None,
+            bad_id,
+            "Water",
+            [],
         )
 
 

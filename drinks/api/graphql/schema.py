@@ -2,7 +2,7 @@ from graphene_django import DjangoObjectType
 import graphene
 from graphql import GraphQLError
 
-from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND
+from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
 from drinks.models import Drink, Ingredient
 
 
@@ -111,8 +111,8 @@ class UpdateIngredient(graphene.Mutation):
     def mutate(self, info, ingredient_id, name):
         try:
             ingredient = Ingredient.objects.get(id=ingredient_id)
-        except Drink.DoesNotExist:
-            raise GraphQLError(INGREDIENTS_EMPTY)
+        except Ingredient.DoesNotExist:
+            raise GraphQLError(INGREDIENT_NOT_FOUND)
 
         ingredient.name = name
         ingredient.save()
