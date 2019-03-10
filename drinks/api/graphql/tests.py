@@ -14,7 +14,7 @@ class UrlTests(TestCase):
         self.assertEqual(reverse("graphql:api"), "/api-graphql/")
 
 
-class SchemaTests(TestCase):
+class SchemaMutationsValidationsTests(TestCase):
     def setUp(self):
         self.whisky = Ingredient.objects.create(name="Whisky")
         self.coca_cola = Ingredient.objects.create(name="Coca Cola")
@@ -59,6 +59,19 @@ class APITestCase(TestCase):
             self.api_url, json.dumps(payload), content_type="application/json"
         )
         return response.json()
+
+    def test_all_drinks(self):
+        query = """
+        query {
+            allDrinks {
+                id
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"id": self.whiscola.id}),
+            {"data": {"allDrinks": [{"id": "1"}]}},
+        )
 
     def test_get_drink(self):
         query = """
@@ -175,6 +188,19 @@ class APITestCase(TestCase):
                     }
                 }
             },
+        )
+
+    def test_all_ingredients(self):
+        query = """
+        query {
+            allIngredients {
+                id
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"id": self.whiscola.id}),
+            {"data": {"allIngredients": [{"id": "1"}, {"id": "2"}, {"id": "3"}]}},
         )
 
     def test_get_ingredient(self):
