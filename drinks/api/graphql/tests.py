@@ -2,14 +2,72 @@ import json
 
 from django.test import TestCase
 from django.urls import reverse
+from graphql import GraphQLError
 
-
+from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
+from drinks.api.graphql.schema import CreateDrink, UpdateDrink, UpdateIngredient
 from drinks.models import Drink, Ingredient
 
 
 class UrlTests(TestCase):
     def test_drink_urls(self):
         self.assertEqual(reverse("graphql:api"), "/api-graphql/")
+
+
+class SchemaMutationsValidationsTests(TestCase):
+    def setUp(self):
+        self.whisky = Ingredient.objects.create(name="Whisky")
+        self.coca_cola = Ingredient.objects.create(name="Coca Cola")
+        self.whiscola = Drink.objects.create(name="Whiscola")
+        self.whiscola.ingredients.add(self.whisky, self.coca_cola)
+
+    def test_create_drink_empty_ingredients_validation(self):
+        drink_schema = CreateDrink()
+        self.assertRaisesMessage(
+            GraphQLError,
+            INGREDIENTS_EMPTY,
+            drink_schema.mutate,
+            None,
+            "Fernet Cola",
+            [],
+        )
+
+    def test_update_drink_empty_ingredients_validation(self):
+        drink_schema = UpdateDrink()
+        self.assertRaisesMessage(
+            GraphQLError,
+            INGREDIENTS_EMPTY,
+            drink_schema.mutate,
+            None,
+            self.whiscola.id,
+            "Whisky Jameson",
+            [],
+        )
+
+    def test_update_drink_wrong_id_validation(self):
+        drink_schema = UpdateDrink()
+        bad_id = 1000
+        self.assertRaisesMessage(
+            GraphQLError,
+            DRINK_NOT_FOUND,
+            drink_schema.mutate,
+            None,
+            bad_id,
+            "Whisky Jameson",
+            [],
+        )
+
+    def test_update_ingredient_wrong_id_validation(self):
+        drink_schema = UpdateIngredient()
+        bad_id = 1000
+        self.assertRaisesMessage(
+            GraphQLError,
+            INGREDIENT_NOT_FOUND,
+            drink_schema.mutate,
+            None,
+            bad_id,
+            "Water",
+        )
 
 
 class APITestCase(TestCase):
@@ -30,6 +88,19 @@ class APITestCase(TestCase):
             self.api_url, json.dumps(payload), content_type="application/json"
         )
         return response.json()
+
+    def test_all_drinks(self):
+        query = """
+        query {
+            allDrinks {
+                id
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"id": self.whiscola.id}),
+            {"data": {"allDrinks": [{"id": "1"}]}},
+        )
 
     def test_get_drink(self):
         query = """
@@ -62,7 +133,7 @@ class APITestCase(TestCase):
 
     def test_create_drink(self):
         query = """
-        mutation ($name: String, $ingredients: [Int]){
+        mutation ($name: String, $ingredients: [Int]) {
             createDrink(name: $name, ingredients: $ingredients) {
                 ok,
                 drink {
@@ -76,7 +147,6 @@ class APITestCase(TestCase):
             }
         }
         """
-        self.maxDiff = None
         self.assertEqual(
             self.query(
                 query,
@@ -100,6 +170,66 @@ class APITestCase(TestCase):
                     }
                 }
             },
+        )
+
+    def test_update_drink(self):
+        query = """
+        mutation ($drink_id: Int, $name: String, $ingredients: [Int]) {
+            updateDrink(drinkId: $drink_id, name: $name, ingredients: $ingredients) {
+                ok,
+                drink {
+                    id,
+                    name,
+                    ingredients {
+                        id,
+                        name
+                    }
+                }
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(
+                query,
+                variables={
+                    "drink_id": self.whiscola.id,
+                    "name": "Whiscola on the rock",
+                    "ingredients": [
+                        self.whisky.id,
+                        self.coca_cola.id,
+                        self.ice_cube.id,
+                    ],
+                },
+            ),
+            {
+                "data": {
+                    "updateDrink": {
+                        "ok": True,
+                        "drink": {
+                            "id": "1",
+                            "name": "Whiscola on the rock",
+                            "ingredients": [
+                                {"id": "1", "name": "Whisky"},
+                                {"id": "2", "name": "Coca Cola"},
+                                {"id": "3", "name": "Ice Cube"},
+                            ],
+                        },
+                    }
+                }
+            },
+        )
+
+    def test_all_ingredients(self):
+        query = """
+        query {
+            allIngredients {
+                id
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"id": self.whiscola.id}),
+            {"data": {"allIngredients": [{"id": "1"}, {"id": "2"}, {"id": "3"}]}},
         )
 
     def test_get_ingredient(self):
@@ -135,6 +265,33 @@ class APITestCase(TestCase):
                     "createIngredient": {
                         "ok": True,
                         "ingredient": {"id": "4", "name": "Vodka"},
+                    }
+                }
+            },
+        )
+
+    def test_update_ingredient(self):
+        query = """
+        mutation ($ingredient_id: Int, $name: String) {
+            updateIngredient(ingredientId: $ingredient_id, name: $name) {
+                ok,
+                ingredient {
+                    id,
+                    name
+                }
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(
+                query,
+                variables={"ingredient_id": self.whisky.id, "name": "Whisky Jamenson"},
+            ),
+            {
+                "data": {
+                    "updateIngredient": {
+                        "ok": True,
+                        "ingredient": {"id": "1", "name": "Whisky Jamenson"},
                     }
                 }
             },
