@@ -32,12 +32,11 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 | status | type | framework | url |
 | ------ | ---- | --------- | --- |
 |:heavy_check_mark:|Service on the Cloud|Heroku|https://www.heroku.com/home/
-|:hourglass_flowing_sand:|Deployments Playbooks|Ansible|https://www.ansible.com/
-|:hourglass_flowing_sand:|Real Time Monitoring|Newrelic|https://newrelic.com/
+|:heavy_check_mark:|Real Time Monitoring|Newrelic|https://newrelic.com/
 |:hourglass_flowing_sand:|Error Tracking|Sentry|https://sentry.io/welcome/
 |:hourglass_flowing_sand:|Log Analysis|Loggly|https://www.loggly.com/
 
-## Project Public Links
+## Public Links
 
 | :star: | Name | Link |
 | ------ | ---- | --- |
@@ -45,3 +44,10 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 |:hammer:|Continuous Integration|https://travis-ci.org/Franr/chupi
 |:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi
 |:mag:|Coveralls|https://coveralls.io/github/Franr/chupi
+
+## Private Links
+
+| :passport_control: | App Dashboard | Link |
+| ------ | ---- | --- |
+|:factory:|Heroku|https://dashboard.heroku.com/apps/chupi
+|:crown:|New Relic|https://rpm.newrelic.com/accounts/806566/applications/259721450
