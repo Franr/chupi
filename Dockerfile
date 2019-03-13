@@ -11,9 +11,12 @@ WORKDIR /code
 
 # Prepare dependencies
 
-RUN apk add --no-cache bash \
-    && pip install pipenv \
-    && pipenv install --system --deploy --ignore-pipfile
+RUN \
+    apk add --no-cache postgresql-libs bash && \
+    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev linux-headers && \
+    pip install pipenv && \
+    pipenv install --system --deploy --ignore-pipfile && \
+    apk --purge del .build-deps
 
 # Run server
 
