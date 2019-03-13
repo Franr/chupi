@@ -38,16 +38,16 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 
 ## Public Links
 
-| :star: | Name | Link |
-| ------ | ---- | --- |
-|:computer:|API Server|https://chupi.herokuapp.com/
-|:hammer:|Continuous Integration|https://travis-ci.org/Franr/chupi
-|:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi
-|:mag:|Coveralls|https://coveralls.io/github/Franr/chupi
+| :star: | Name | Link | Badge |
+| ------ | ---- | ---- | ------ |
+|:computer:|API Server|https://chupi.herokuapp.com/|:hourglass_flowing_sand:
+|:hammer:|Continuous Integration|https://travis-ci.org/Franr/chupi|[![Build Status](https://travis-ci.org/Franr/chupi.svg?branch=master)](https://travis-ci.org/Franr/chupi)
+|:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi|:hourglass_flowing_sand:
+|:mag:|Coveralls|https://coveralls.io/github/Franr/chupi|[![Coverage Status](https://coveralls.io/repos/github/Franr/chupi/badge.svg?branch=master)](https://coveralls.io/github/Franr/chupi?branch=master)
 
 ## Private Links
 
 | :passport_control: | App Dashboard | Link |
-| ------ | ---- | --- |
+| ------------------ | ------------- | ---- |
 |:factory:|Heroku|https://dashboard.heroku.com/apps/chupi
 |:crown:|New Relic|https://rpm.newrelic.com/accounts/806566/applications/259721450
