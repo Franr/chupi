@@ -42,7 +42,7 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 | ------ | ---- | ---- | ------ |
 |:computer:|API Server|https://chupi.herokuapp.com/|:hourglass_flowing_sand:
 |:hammer:|Continuous Integration|https://travis-ci.org/Franr/chupi|[![Build Status](https://travis-ci.org/Franr/chupi.svg?branch=master)](https://travis-ci.org/Franr/chupi)
-|:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi|:hourglass_flowing_sand:
+|:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi|[![Build Status](https://img.shields.io/docker/cloud/build/franr/chupi.svg)](https://hub.docker.com/r/franr/chupi)
 |:mag:|Coveralls|https://coveralls.io/github/Franr/chupi|[![Coverage Status](https://coveralls.io/repos/github/Franr/chupi/badge.svg?branch=master)](https://coveralls.io/github/Franr/chupi?branch=master)
 
 ## Private Links
