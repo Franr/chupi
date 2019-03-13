@@ -31,7 +31,7 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 
 | status | type | framework | url |
 | ------ | ---- | --------- | --- |
-|:hourglass_flowing_sand:|Service on the Cloud|Heroku|https://www.heroku.com/home/
+|:heavy_check_mark:|Service on the Cloud|Heroku|https://www.heroku.com/home/
 |:hourglass_flowing_sand:|Deployments Playbooks|Ansible|https://www.ansible.com/
 |:hourglass_flowing_sand:|Real Time Monitoring|Newrelic|https://newrelic.com/
 |:hourglass_flowing_sand:|Error Tracking|Sentry|https://sentry.io/welcome/
@@ -41,6 +41,7 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 
 | :star: | Name | Link |
 | ------ | ---- | --- |
+|:computer:|API Server|https://chupi.herokuapp.com/
 |:hammer:|Continuous Integration|https://travis-ci.org/Franr/chupi
 |:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi
 |:mag:|Coveralls|https://coveralls.io/github/Franr/chupi
