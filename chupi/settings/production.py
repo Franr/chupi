@@ -2,8 +2,6 @@ import sentry_sdk
 
 from .base import *
 
-DEBUG = False
-
 INSTALLED_APPS += ("django_heroku",)
 
 # Configure Django App for Heroku.

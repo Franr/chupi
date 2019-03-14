@@ -33,7 +33,7 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 | ------ | ---- | --------- | --- |
 |:heavy_check_mark:|Service on the Cloud|Heroku|https://www.heroku.com/home/
 |:heavy_check_mark:|Real Time Monitoring|Newrelic|https://newrelic.com/
-|:hourglass_flowing_sand:|Error Tracking|Sentry|https://sentry.io/welcome/
+|:heavy_check_mark:|Error Tracking|Sentry|https://sentry.io/welcome/
 |:hourglass_flowing_sand:|Log Analysis|Loggly|https://www.loggly.com/
 
 ## Public Links
@@ -51,3 +51,4 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 | ------------------ | ------------- | ---- |
 |:factory:|Heroku|https://dashboard.heroku.com/apps/chupi
 |:crown:|New Relic|https://rpm.newrelic.com/accounts/806566/applications/259721450
+|:rotating_light:|Sentry|https://sentry.io/organizations/francisco-rivera/issues/?project=1414131
