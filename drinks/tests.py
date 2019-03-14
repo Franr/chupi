@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from drinks import ERROR_MSG
 from drinks.models import Drink, Ingredient
 
 
@@ -8,11 +9,14 @@ class UrlTests(TestCase):
     def setUp(self):
         self.whiscola = Drink.objects.create(name="Whiscola")
 
-    def test_urls(self):
+    def test_template_urls(self):
         self.assertEqual(reverse("template:index"), "/drinks/")
         self.assertEqual(
             reverse("template:detail", args=(self.whiscola.id,)), "/drinks/1/"
         )
+
+    def test_error_url(self):
+        self.assertEqual(reverse("template:error"), "/generate_error/")
 
 
 class TemplateViewTests(TestCase):
@@ -34,3 +38,9 @@ class TemplateViewTests(TestCase):
         self.assertContains(response, self.whisky.name)
         self.assertContains(response, self.coca_cola.name)
         self.assertContains(response, self.whiscola.name)
+
+
+class ErrorViewTests(TestCase):
+    def test_error_view(self):
+        url = reverse("template:error")
+        self.assertRaisesMessage(Exception, ERROR_MSG, self.client.get, url)
