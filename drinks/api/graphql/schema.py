@@ -1,5 +1,7 @@
-from graphene_django import DjangoObjectType
+from typing import List
+
 import graphene
+from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 
 from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
@@ -49,7 +51,7 @@ class CreateDrink(graphene.Mutation):
     ok = graphene.Boolean()
     drink = graphene.Field(lambda: DrinkType)
 
-    def mutate(self, info, name, ingredients):
+    def mutate(self, info, name: str, ingredients: List[int]):
         if not ingredients:
             raise GraphQLError(INGREDIENTS_EMPTY)
 
@@ -69,7 +71,7 @@ class UpdateDrink(graphene.Mutation):
     ok = graphene.Boolean()
     drink = graphene.Field(lambda: DrinkType)
 
-    def mutate(self, info, drink_id, name, ingredients):
+    def mutate(self, info, drink_id: int, name: str, ingredients: List[int]):
         try:
             drink = Drink.objects.get(id=drink_id)
         except Drink.DoesNotExist:
@@ -94,7 +96,7 @@ class CreateIngredient(graphene.Mutation):
     ok = graphene.Boolean()
     ingredient = graphene.Field(lambda: IngredientType)
 
-    def mutate(self, info, name):
+    def mutate(self, info, name: str):
         ingredient = Ingredient.objects.create(name=name)
 
         return CreateIngredient(ingredient=ingredient, ok=True)
@@ -108,7 +110,7 @@ class UpdateIngredient(graphene.Mutation):
     ok = graphene.Boolean()
     ingredient = graphene.Field(lambda: IngredientType)
 
-    def mutate(self, info, ingredient_id, name):
+    def mutate(self, info, ingredient_id: int, name: str):
         try:
             ingredient = Ingredient.objects.get(id=ingredient_id)
         except Ingredient.DoesNotExist:

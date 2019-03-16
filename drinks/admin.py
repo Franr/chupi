@@ -11,7 +11,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 
 @admin.register(Drink)
-class IngredientAdmin(admin.ModelAdmin):
+class DrinkAdmin(admin.ModelAdmin):
     ordering = ("name",)
     list_display = ("id", "name")
     filter_horizontal = ("ingredients",)
