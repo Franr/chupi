@@ -24,6 +24,7 @@ To make the development easier, I rely on these free and cool tools:
 |:heavy_check_mark:|Code Linter|Black|https://black.readthedocs.io/en/stable/
 |:heavy_check_mark:|Tests Coverage|Coveralls|https://coveralls.io/
 |:heavy_check_mark:|Docker Image Generation|Docker Hub|https://hub.docker.com/
+|:heavy_check_mark:|Static Type Checker|mypy|http://mypy-lang.org/
 
 ## Infrastructure
 
