@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.views import generic
 
 from drinks import ERROR_MSG
@@ -14,3 +15,13 @@ class DetailView(generic.DetailView):
 
 def generate_error_view(request):
     raise Exception(ERROR_MSG)
+
+
+def status_badge_view(request):
+    data = {
+        "schemaVersion": 1,
+        "label": "server",
+        "message": "running",
+        "cacheSeconds": 60 * 60,
+    }
+    return JsonResponse(data)
