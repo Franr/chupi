@@ -44,3 +44,17 @@ class ErrorViewTests(TestCase):
     def test_error_view(self):
         url = reverse("template:error")
         self.assertRaisesMessage(Exception, ERROR_MSG, self.client.get, url)
+
+
+class BadgeViewTests(TestCase):
+    def test_error_view(self):
+        url = reverse("template:badge")
+        self.assertDictEqual(
+            self.client.get(url).json(),
+            {
+                "schemaVersion": 1,
+                "label": "server",
+                "message": "running",
+                "cacheSeconds": 60 * 60,
+            },
+        )
