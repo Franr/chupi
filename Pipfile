@@ -24,6 +24,7 @@ sentry-sdk = "==0.7.6"
 mypy = "*"
 psycopg2 = "*"
 gunicorn = "*"
+coreapi = "*"
 
 [requires]
 python_version = "3.7"

@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.documentation import include_docs_urls
+
 from drinks.api.rest.routers import rest_urlpatterns
 from drinks.api.graphql.urls import graphql_urlpatterns
 from drinks.urls import drinks_templates_urlpatterns
@@ -28,6 +30,7 @@ urlpatterns = [
     # Rest API
     path("api-auth/", include("rest_framework.urls")),
     path("api-rest/", include(rest_urlpatterns, namespace="rest")),
+    path("docs/", include_docs_urls(title="Chupi")),
     # GraphQL API
     path("api-graphql/", include(graphql_urlpatterns, namespace="graphql")),
 ]
