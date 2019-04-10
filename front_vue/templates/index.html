@@ -1,0 +1,20 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
+        <link href="{% static "style.css" %}" rel="stylesheet" type="text/css">
+        <script src="{% static "vue.js" %}"></script>
+    </head>
+    <body>
+        <div id="app" v-if="drinks">
+            <drink
+                v-for="drink in drinks"
+                v-bind:key="drink.id"
+                v-bind:name="drink.name"
+                v-bind:ingredients="drink.ingredients"
+            ></drink>
+        </div>
+        <script src="{% static "app.js" %}"></script>
+    </body>
+</html>

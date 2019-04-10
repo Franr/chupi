@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "graphene_django",
     # first-party
     "drinks",
+    # front-ends
+    "front_vue",
 ]
 
 MIDDLEWARE = [

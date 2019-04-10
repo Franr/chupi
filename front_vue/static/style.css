@@ -1,0 +1,31 @@
+body {
+  background-color: #e6ecf0;
+  font-family: sans-serif;
+}
+
+.title {
+  display: flex;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.status {
+  width: 400px;
+  margin: 20px auto;
+  border-radius: 3px;
+  background-color: white;
+}
+
+span {
+  color: grey;
+}
+
+.ingredient {
+  background-color: #f5f8fa;
+  padding: 10px;
+  border-top: 1px solid #e6ecf0;
+}
+
+.toggler {
+  padding-right: 10px;
+}
