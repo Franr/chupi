@@ -25,6 +25,7 @@ mypy = "*"
 psycopg2 = "*"
 gunicorn = "*"
 coreapi = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.7"

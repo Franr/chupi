@@ -5,7 +5,22 @@ from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 
 from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
-from drinks.models import Drink, Ingredient
+from drinks.models import Drink, Ingredient, Technique, Garnish, Container
+
+
+class ContainerType(DjangoObjectType):
+    class Meta:
+        model = Container
+
+
+class GarnishType(DjangoObjectType):
+    class Meta:
+        model = Garnish
+
+
+class TechniqueType(DjangoObjectType):
+    class Meta:
+        model = Technique
 
 
 class DrinkType(DjangoObjectType):
@@ -19,10 +34,20 @@ class IngredientType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    drink = graphene.Field(DrinkType, id=graphene.Int())
     all_drinks = graphene.List(DrinkType)
-    ingredient = graphene.Field(IngredientType, id=graphene.Int())
     all_ingredients = graphene.List(IngredientType, id=graphene.Int())
+
+    drink = graphene.Field(DrinkType, id=graphene.Int())
+    ingredient = graphene.Field(IngredientType, id=graphene.Int())
+    container = graphene.Field(ContainerType, id=graphene.Int())
+    garnish = graphene.Field(GarnishType, id=graphene.Int())
+    technique = graphene.Field(TechniqueType, id=graphene.Int())
+
+    def resolve_all_drinks(self, info):
+        return Drink.objects.all()
+
+    def resolve_all_ingredients(self, info):
+        return Ingredient.objects.all()
 
     def resolve_drink(self, info, **kwargs):
         drink_id = kwargs.get("id")
@@ -30,17 +55,11 @@ class Query(graphene.ObjectType):
         if drink_id is not None:
             return Drink.objects.get(pk=drink_id)
 
-    def resolve_all_drinks(self, info):
-        return Drink.objects.all()
-
     def resolve_ingredient(self, info, **kwargs):
         ingredient_id = kwargs.get("id")
 
         if ingredient_id is not None:
             return Ingredient.objects.get(pk=ingredient_id)
-
-    def resolve_all_ingredients(self, info):
-        return Ingredient.objects.all()
 
 
 class CreateDrink(graphene.Mutation):
