@@ -1,22 +1,92 @@
 from django.db import models
+from django.db.models import SET_NULL
 
 
-class Ingredient(models.Model):
+class NamedItem(models.Model):
     name = models.CharField(max_length=200)
+
+    class Meta:
+        abstract = True
 
     def __str__(self) -> str:
         return self.name
 
 
-# TODO: apply this improvement when info available
-class Measure(models.Model):
-    amount = models.FloatField()
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+class Element(NamedItem):
+    """
+    - whisky
+    - ron
+    - vodka
+    - ...
+    """
+
+    pass
 
 
-class Drink(models.Model):
-    name = models.CharField(max_length=200)
+class Measure(NamedItem):
+    """
+    - 60ml
+    - 120ml
+    - a dash
+    - ...
+    """
+
+    pass
+
+
+class Technique(NamedItem):
+    """
+    - direct
+    - shacked
+    - frozen
+    - ...
+    """
+
+    pass
+
+
+class Container(NamedItem):
+    """
+    - wine glass
+    - long glass
+    - whisky glass
+    - ...
+    """
+
+    pass
+
+
+class Garnish(NamedItem):
+    """
+    - mint
+    - lemon skin
+    - orange slice
+    - ...
+    """
+
+    pass
+
+
+class Ingredient(NamedItem):
+    """
+    An amount of an element:
+    - whisky 60ml
+    - orange juice 130ml
+    - a dash of soda
+    - ...
+    """
+
+    element = models.ForeignKey(Element, on_delete=SET_NULL, null=True, blank=True)
+    measure = models.ForeignKey(Measure, on_delete=SET_NULL, null=True, blank=True)
+
+
+class Drink(NamedItem):
+    """
+    A combination of all the previous models.
+    """
+
     ingredients = models.ManyToManyField(Ingredient)
-
-    def __str__(self) -> str:
-        return self.name
+    garnish = models.ForeignKey(Garnish, on_delete=SET_NULL, null=True, blank=True)
+    technique = models.ForeignKey(Technique, on_delete=SET_NULL, null=True, blank=True)
+    container = models.ForeignKey(Container, on_delete=SET_NULL, null=True, blank=True)
+    recipe = models.TextField(blank=True)

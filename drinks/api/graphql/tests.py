@@ -6,6 +6,7 @@ from graphql import GraphQLError
 
 from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
 from drinks.api.graphql.schema import CreateDrink, UpdateDrink, UpdateIngredient
+from drinks.factories import GinTonicFactory, IngredientFactory, DrinkFactory
 from drinks.models import Drink, Ingredient
 
 
@@ -70,14 +71,8 @@ class SchemaMutationsValidationsTests(TestCase):
         )
 
 
-class APITestCase(TestCase):
-    def setUp(self):
-        self.api_url = reverse("graphql:api")
-        self.whisky = Ingredient.objects.create(name="Whisky")
-        self.coca_cola = Ingredient.objects.create(name="Coca Cola")
-        self.ice_cube = Ingredient.objects.create(name="Ice Cube")
-        self.whiscola = Drink.objects.create(name="Whiscola")
-        self.whiscola.ingredients.add(self.whisky, self.coca_cola)
+class QueryAPI(TestCase):
+    api_url = reverse("graphql:api")
 
     def query(self, query, variables=None):
         payload = {"query": query}
@@ -89,6 +84,11 @@ class APITestCase(TestCase):
         )
         return response.json()
 
+
+class APIQueriesTestCase(QueryAPI):
+    def setUp(self):
+        self.gin_tonic = GinTonicFactory()
+
     def test_all_drinks(self):
         query = """
         query {
@@ -98,7 +98,7 @@ class APITestCase(TestCase):
         }
         """
         self.assertEqual(
-            self.query(query, variables={"id": self.whiscola.id}),
+            self.query(query, variables={"id": self.gin_tonic.id}),
             {"data": {"allDrinks": [{"id": "1"}]}},
         )
 
@@ -106,30 +106,78 @@ class APITestCase(TestCase):
         query = """
         query ($id: Int) {
             drink(id:$id) {
-                id,
-                name,
+                id
+                name
                 ingredients {
-                    id,
+                    id
+                    name
+                }
+                garnish {
+                    name
+                }
+                technique {
+                    name
+                }
+                container {
                     name
                 }
             }
         }
         """
+        self.maxDiff = None
         self.assertEqual(
-            self.query(query, variables={"id": self.whiscola.id}),
+            self.query(query, variables={"id": self.gin_tonic.id}),
             {
                 "data": {
                     "drink": {
                         "id": "1",
-                        "name": "Whiscola",
+                        "name": "Gin Tonic",
                         "ingredients": [
-                            {"id": "1", "name": "Whisky"},
-                            {"id": "2", "name": "Coca Cola"},
+                            {"id": "1", "name": "Gin 60ml"},
+                            {"id": "2", "name": "Tonic Soda 140ml"},
                         ],
+                        "garnish": {"name": "Lemon Slice"},
+                        "technique": {"name": "Direct"},
+                        "container": {"name": "Balloon Glass"},
                     }
                 }
             },
         )
+
+    def test_all_ingredients(self):
+        query = """
+        query {
+            allIngredients {
+                id
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"id": self.gin_tonic.id}),
+            {"data": {"allIngredients": [{"id": "1"}, {"id": "2"}]}},
+        )
+
+    def test_get_ingredient(self):
+        query = """
+        query ($id: Int) {
+            ingredient(id:$id) {
+                id,
+                name
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"id": self.gin_tonic.ingredients.first().id}),
+            {"data": {"ingredient": {"id": "1", "name": "Gin 60ml"}}},
+        )
+
+
+class APIMutationsTestCase(QueryAPI):
+    def setUp(self):
+        self.whisky = IngredientFactory(name="Whisky")
+        self.ice_cube = IngredientFactory(name="Ice Cube")
+        self.coca_cola = IngredientFactory(name="Coca Cola")
+        self.whiscola = DrinkFactory(ingredients=(self.whisky, self.coca_cola))
 
     def test_create_drink(self):
         query = """
@@ -164,7 +212,7 @@ class APITestCase(TestCase):
                             "name": "Whisky on the rock",
                             "ingredients": [
                                 {"id": "1", "name": "Whisky"},
-                                {"id": "3", "name": "Ice Cube"},
+                                {"id": "2", "name": "Ice Cube"},
                             ],
                         },
                     }
@@ -188,6 +236,7 @@ class APITestCase(TestCase):
             }
         }
         """
+
         self.assertEqual(
             self.query(
                 query,
@@ -196,8 +245,8 @@ class APITestCase(TestCase):
                     "name": "Whiscola on the rock",
                     "ingredients": [
                         self.whisky.id,
-                        self.coca_cola.id,
                         self.ice_cube.id,
+                        self.coca_cola.id,
                     ],
                 },
             ),
@@ -210,40 +259,13 @@ class APITestCase(TestCase):
                             "name": "Whiscola on the rock",
                             "ingredients": [
                                 {"id": "1", "name": "Whisky"},
-                                {"id": "2", "name": "Coca Cola"},
-                                {"id": "3", "name": "Ice Cube"},
+                                {"id": "2", "name": "Ice Cube"},
+                                {"id": "3", "name": "Coca Cola"},
                             ],
                         },
                     }
                 }
             },
-        )
-
-    def test_all_ingredients(self):
-        query = """
-        query {
-            allIngredients {
-                id
-            }
-        }
-        """
-        self.assertEqual(
-            self.query(query, variables={"id": self.whiscola.id}),
-            {"data": {"allIngredients": [{"id": "1"}, {"id": "2"}, {"id": "3"}]}},
-        )
-
-    def test_get_ingredient(self):
-        query = """
-        query ($id: Int) {
-            ingredient(id:$id) {
-                id,
-                name
-            }
-        }
-        """
-        self.assertEqual(
-            self.query(query, variables={"id": self.whisky.id}),
-            {"data": {"ingredient": {"id": "1", "name": "Whisky"}}},
         )
 
     def test_create_ingredient(self):

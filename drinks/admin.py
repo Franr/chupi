@@ -1,18 +1,44 @@
 from django.contrib import admin
 
-from drinks.models import Drink, Ingredient
+from drinks import models
 
 
-@admin.register(Ingredient)
-class IngredientAdmin(admin.ModelAdmin):
+class NamedItemAdmin(admin.ModelAdmin):
     ordering = ("name",)
     list_display = ("id", "name")
     search_fields = ("name",)
 
 
-@admin.register(Drink)
-class DrinkAdmin(admin.ModelAdmin):
-    ordering = ("name",)
-    list_display = ("id", "name")
+@admin.register(models.Element)
+class ElementAdmin(NamedItemAdmin):
+    pass
+
+
+@admin.register(models.Measure)
+class MeasureAdmin(NamedItemAdmin):
+    pass
+
+
+@admin.register(models.Technique)
+class PreparationMethodAdmin(NamedItemAdmin):
+    pass
+
+
+@admin.register(models.Container)
+class ContainerAdmin(NamedItemAdmin):
+    pass
+
+
+@admin.register(models.Garnish)
+class GarnishAdmin(NamedItemAdmin):
+    pass
+
+
+@admin.register(models.Ingredient)
+class IngredientAdmin(NamedItemAdmin):
+    pass
+
+
+@admin.register(models.Drink)
+class DrinkAdmin(NamedItemAdmin):
     filter_horizontal = ("ingredients",)
-    search_fields = ("name",)
