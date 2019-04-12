@@ -11,8 +11,7 @@
             <drink
                 v-for="drink in drinks"
                 v-bind:key="drink.id"
-                v-bind:name="drink.name"
-                v-bind:ingredients="drink.ingredients"
+                v-bind:drink="drink"
             ></drink>
         </div>
         <script src="{% static "app.js" %}"></script>
