@@ -1,27 +1,31 @@
-Vue.component("ingredient-item", {
+Vue.component("item", {
   props: ['name'],
-  template: '<div>{{ name }}</div>'
+  template: '<div class="ingredient">{{ name }}</div>'
 });
 
-Vue.component("ingredient-list", {
-  props: ['ingredients', 'showList'],
+
+Vue.component("drink-details", {
+  props: ['drink', 'showList'],
   template: `
   <div>
     <template v-if="showList">
-      <ingredient-item
-        v-for="ingredient in ingredients"
-        class="ingredient"
+      <item
+        v-for="ingredient in drink.ingredients"
         v-bind:key="ingredient.id"
         v-bind:name="ingredient.name"
       >
-      </ingredient-item>
+      </item>
+      <item v-bind:name="drink.garnish.name"></item>
+      <item v-bind:name="drink.technique.name"></item>
+      <item v-bind:name="drink.container.name"></item>
     </template>
    </div>
    `
 });
 
+
 Vue.component("drink", {
-  props: ['name', 'ingredients'],
+  props: ['drink'],
   data: function() {
     return {
       showList: false
@@ -39,15 +43,15 @@ Vue.component("drink", {
           <span v-if="showList" class="toggler">-</span>
           <span v-else class="toggler">+</span>
         </span>
-        {{ name }}
+        {{ drink.name }}
       </div>
-      <ingredient-list v-bind:ingredients="ingredients" v-bind:show-list="showList"></ingredient-list>
+      <drink-details v-bind:drink="drink" v-bind:show-list="showList"></drink-details>
     </div>
   `
 });
 
-let url = '/api-graphql/';
 
+let url = '/api-graphql/';
 let payload = {query: `
 query {
   allDrinks {
@@ -57,14 +61,23 @@ query {
       id
       name
     }
+    garnish {
+      name
+    }
+    technique {
+      name
+    }
+    container {
+      name
+    }
   }
 }`};
+
 
 let app = new Vue({
   el: "#app",
   data: {
-    drinks: null,
-    loadedDrinks: false
+    drinks: null
   },
   methods: {
     fetch_drinks() {
