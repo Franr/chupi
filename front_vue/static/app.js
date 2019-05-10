@@ -15,9 +15,9 @@ Vue.component("drink-details", {
         v-bind:name="ingredient.name"
       >
       </item>
-      <item v-bind:name="drink.garnish.name"></item>
-      <item v-bind:name="drink.technique.name"></item>
-      <item v-bind:name="drink.container.name"></item>
+      <item v-if="drink.garnish" v-bind:name="drink.garnish.name"></item>
+      <item v-if="drink.technique" v-bind:name="drink.technique.name"></item>
+      <item v-if="drink.container" v-bind:name="drink.container.name"></item>
     </template>
    </div>
    `
