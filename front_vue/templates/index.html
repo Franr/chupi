@@ -8,8 +8,11 @@
     </head>
     <body>
         <div id="app" v-if="drinks">
+            <div class="status">
+                <input id="search-input" class="title" v-model="search" placeholder="buscar..."></input>
+            </div>
             <drink
-                v-for="drink in drinks"
+                v-for="drink in filteredList"
                 v-bind:key="drink.id"
                 v-bind:drink="drink"
             ></drink>

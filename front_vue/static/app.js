@@ -77,7 +77,8 @@ query {
 let app = new Vue({
   el: "#app",
   data: {
-    drinks: null
+    drinks: null,
+    search: ''
   },
   methods: {
     fetch_drinks() {
@@ -91,6 +92,22 @@ let app = new Vue({
         .catch(error => console.error(error))
     }
   },
+  computed: {
+    filteredList() {
+      return this.drinks.filter(drink => {
+        // search works filtering by drink name
+        const on_drink_name = drink.name.toLowerCase().includes(this.search.toLowerCase());
+        // and also by ingredient's name
+        const on_ingredient_name = drink.ingredients.filter(
+          ingredient => {
+            return ingredient.name.toLowerCase().includes(this.search.toLowerCase())
+          }
+        ).length > 0;
+        return  on_drink_name || on_ingredient_name
+      })
+    }
+  },
+
   created() {
     this.fetch_drinks()
   }
