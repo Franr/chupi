@@ -4,12 +4,15 @@
         <meta charset="UTF-8">
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
         <link href="{% static "style.css" %}" rel="stylesheet" type="text/css">
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="{% static "vue.js" %}"></script>
     </head>
     <body>
         <div id="app" v-if="drinks">
+            <div class="status">
+                <input id="search-input" class="title" v-model="search" placeholder="buscar..."></input>
+            </div>
             <drink
-                v-for="drink in drinks"
+                v-for="drink in filteredList"
                 v-bind:key="drink.id"
                 v-bind:drink="drink"
             ></drink>
