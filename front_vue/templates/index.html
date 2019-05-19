@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
         <link href="{% static "style.css" %}" rel="stylesheet" type="text/css">
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="{% static "vue.js" %}"></script>
     </head>
     <body>
         <div id="app" v-if="drinks">

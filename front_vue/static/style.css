@@ -16,6 +16,11 @@ body {
   background-color: white;
 }
 
+#search-input {
+  width: 100%;
+  font-weight: normal;
+}
+
 span {
   color: grey;
 }
