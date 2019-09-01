@@ -1,0 +1,15 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run migrations
+      run: ./manage.py migrate
+    - name: Run tests with coverage
+      run: coverage run --source=drinks manage.py test
