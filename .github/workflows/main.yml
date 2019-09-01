@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run migrations
-      run: ./manage.py migrate
+      run: python3 manage.py migrate
     - name: Run tests with coverage
       run: coverage run --source=drinks manage.py test
