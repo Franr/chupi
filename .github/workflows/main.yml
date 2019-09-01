@@ -9,7 +9,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run migrations
-      run: python3 manage.py migrate
-    - name: Run tests with coverage
-      run: coverage run --source=drinks manage.py test
+    - name: Run Tests
+      run: |
+        pip3 install pipenv
+        pipenv sync --dev
+        python3 manage.py migrate
+        coverage run --source=drinks manage.py test
