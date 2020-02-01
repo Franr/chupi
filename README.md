@@ -4,6 +4,16 @@ Ever wondered what to do with all those alcohol bottles?
 `chupi` is a python backend API for a dummy catalog of drinks. The idea is to condense all the modern knowledge
 I have acquired through the years, and reflect them on a single and tiny pet project.
 
+## Stack
+
+| Framework | Version |
+| ------ | ---- |
+| Python | 3.7 |
+| Django | 2.1 |
+| Django Rest Framework | 3.9 |
+| PostgreSQL | 11.4 |
+| Vue.js | 2.6 |
+
 ## Service Interface
 
 It (try to) supports all the modern type of APIs that are lying around, including:
@@ -13,6 +23,12 @@ It (try to) supports all the modern type of APIs that are lying around, includin
 |:heavy_check_mark:|Backend Rendered Templates|Django|https://www.djangoproject.com/
 |:heavy_check_mark:|Rest|Django Rest Framework|https://www.django-rest-framework.org/
 |:heavy_check_mark:|GraphQL|Graphene|https://graphene-python.org/
+
+## Extras
+
+| status | type | framework | url |
+| ------ | ---- | --------- | --- |
+|:heavy_check_mark:|JWT Authentication|Simple JWT|https://github.com/davesque/django-rest-framework-simplejwt
 
 ## Dev Tools
 
@@ -40,9 +56,9 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 
 | :star: | Name | Link | Badge |
 | ------ | ---- | ---- | ------ |
-|:computer:|API Server|https://chupi.herokuapp.com/|[![Custom badge](https://img.shields.io/endpoint.svg?color=success&url=https%3A%2F%2Fchupi.herokuapp.com%2Fstatus_badge%2F)](https://chupi.herokuapp.com/)
-|:book:|API REST Documentation|https://chupi.herokuapp.com/docs|[![Custom badge](https://img.shields.io/endpoint.svg?color=success&url=https%3A%2F%2Fchupi.herokuapp.com%2Fstatus_badge%2F)](https://chupi.herokuapp.com/)
-|:checkered_flag:|Vue.js Frontend|https://chupi.herokuapp.com/front|[![Custom badge](https://img.shields.io/endpoint.svg?color=success&url=https%3A%2F%2Fchupi.herokuapp.com%2Fstatus_badge%2F)](https://chupi.herokuapp.com/)
+|:computer:|API Server|https://chupi.herokuapp.com/
+|:book:|API REST Documentation|https://chupi.herokuapp.com/docs
+|:checkered_flag:|Vue.js Frontend|https://chupi.herokuapp.com/front
 |:hammer:|Continuous Integration|https://travis-ci.org/Franr/chupi|[![Build Status](https://travis-ci.org/Franr/chupi.svg?branch=master)](https://travis-ci.org/Franr/chupi)
 |:whale2:|Docker Image|https://hub.docker.com/r/franr/chupi|[![Build Status](https://img.shields.io/docker/cloud/build/franr/chupi.svg)](https://hub.docker.com/r/franr/chupi)
 |:mag:|Coveralls|https://coveralls.io/github/Franr/chupi|[![Coverage Status](https://coveralls.io/repos/github/Franr/chupi/badge.svg?branch=master)](https://coveralls.io/github/Franr/chupi?branch=master)
