@@ -36,7 +36,8 @@ To make the development easier, I rely on these free and cool tools:
 
 | status | type | framework | url |
 | ------ | ---- | --------- | --- |
-|:heavy_check_mark:|Continuous Integration Platform|Travis|https://travis-ci.org/
+|:heavy_check_mark:|Continuous Integration Platform I|Travis|https://travis-ci.org/
+|:heavy_check_mark:|Continuous Integration Platform II|Github Actions|https://github.com/features/actions
 |:heavy_check_mark:|Code Linter|Black|https://black.readthedocs.io/en/stable/
 |:heavy_check_mark:|Tests Coverage|Coveralls|https://coveralls.io/
 |:heavy_check_mark:|Docker Image Generation|Docker Hub|https://hub.docker.com/
