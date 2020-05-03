@@ -55,27 +55,3 @@ class DrinkFactory(DjangoModelFactory):
             # A list of groups were passed in, use them
             for ingredient in extracted:
                 self.ingredients.add(ingredient)
-
-
-class GinFactory(IngredientFactory):
-    name = "Gin 60ml"
-    element = ElementFactory(name="Gin")
-    measure = MeasureFactory(name="60ml")
-
-
-class TonicFactory(IngredientFactory):
-    name = "Tonic Soda 140ml"
-    element = ElementFactory(name="Tonic Soda")
-    measure = MeasureFactory(name="140ml")
-
-
-class GinTonicFactory(DrinkFactory):
-    name = "Gin Tonic"
-    garnish__name = "Lemon Slice"
-    technique__name = "Direct"
-    container__name = "Balloon Glass"
-
-    @factory.post_generation
-    def ingredients(self, create, extracted, **kwargs):
-        self.ingredients.add(GinFactory())
-        self.ingredients.add(TonicFactory())

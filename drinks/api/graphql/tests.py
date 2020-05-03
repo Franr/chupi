@@ -6,7 +6,13 @@ from graphql import GraphQLError
 
 from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
 from drinks.api.graphql.schema import CreateDrink, UpdateDrink, UpdateIngredient
-from drinks.factories import GinTonicFactory, IngredientFactory, DrinkFactory
+from drinks.factories import (
+    IngredientFactory,
+    DrinkFactory,
+    GarnishFactory,
+    ContainerFactory,
+    TechniqueFactory,
+)
 from drinks.models import Drink, Ingredient
 
 
@@ -87,7 +93,15 @@ class QueryAPI(TestCase):
 
 class APIQueriesTestCase(QueryAPI):
     def setUp(self):
-        self.gin_tonic = GinTonicFactory()
+        self.gin = IngredientFactory(name="Gin 60ml")
+        self.tonic = IngredientFactory(name="Tonic Soda 140ml")
+        self.gin_tonic = DrinkFactory(
+            name="Gin Tonic",
+            ingredients=(self.gin, self.tonic),
+            garnish=GarnishFactory(name="Lemon Slice"),
+            container=ContainerFactory(name="Balloon Glass"),
+            technique=TechniqueFactory(name="Direct"),
+        )
 
     def test_all_drinks(self):
         query = """
