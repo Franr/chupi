@@ -9,7 +9,7 @@ I have acquired through the years, and reflect them on a single and tiny pet pro
 | Framework | Version |
 | ------ | ---- |
 | Python | 3.7 |
-| Django | 2.1 |
+| Django | 2.2 |
 | Django Rest Framework | 3.9 |
 | PostgreSQL | 11.4 |
 | Vue.js | 2.6 |
