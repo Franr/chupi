@@ -1,10 +1,6 @@
 from rest_framework import filters, viewsets
 
-from drinks.api.rest.serializers import (
-    DrinkSerializer,
-    DrinkWriteSerializer,
-    IngredientSerializer,
-)
+from drinks.api.rest.serializers import DrinkSerializer, DrinkWriteSerializer, IngredientSerializer
 from drinks.models import Drink, Ingredient
 
 WRITABLE_ACTIONS = ("update", "partial_update", "create")

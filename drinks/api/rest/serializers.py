@@ -18,6 +18,4 @@ class DrinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DrinkWriteSerializer(DrinkSerializer):
-    ingredients = serializers.PrimaryKeyRelatedField(
-        many=True, allow_empty=False, queryset=Ingredient.objects.all()
-    )
+    ingredients = serializers.PrimaryKeyRelatedField(many=True, allow_empty=False, queryset=Ingredient.objects.all())

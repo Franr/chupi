@@ -1,0 +1,10 @@
+[tool.mypy]
+ignore_missing_imports = true
+raise_exceptions = true
+
+[tool.black]
+line-length = 120
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = "C0114, C0115, C0116, R0201, R0901, R0903, W0613"

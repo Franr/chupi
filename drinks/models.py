@@ -9,7 +9,7 @@ class NamedItem(models.Model):
         abstract = True
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 
 class Element(NamedItem):
@@ -20,8 +20,6 @@ class Element(NamedItem):
     - ...
     """
 
-    pass
-
 
 class Measure(NamedItem):
     """
@@ -30,8 +28,6 @@ class Measure(NamedItem):
     - a dash
     - ...
     """
-
-    pass
 
 
 class Technique(NamedItem):
@@ -42,8 +38,6 @@ class Technique(NamedItem):
     - ...
     """
 
-    pass
-
 
 class Container(NamedItem):
     """
@@ -53,8 +47,6 @@ class Container(NamedItem):
     - ...
     """
 
-    pass
-
 
 class Garnish(NamedItem):
     """
@@ -63,8 +55,6 @@ class Garnish(NamedItem):
     - orange slice
     - ...
     """
-
-    pass
 
 
 class Ingredient(NamedItem):

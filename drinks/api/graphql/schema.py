@@ -4,8 +4,8 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 
-from drinks.api.graphql import INGREDIENTS_EMPTY, DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND
-from drinks.models import Drink, Ingredient, Technique, Garnish, Container
+from drinks.api.graphql import DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND, INGREDIENTS_EMPTY
+from drinks.models import Container, Drink, Garnish, Ingredient, Technique
 
 
 class ContainerType(DjangoObjectType):

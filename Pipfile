@@ -10,6 +10,7 @@ ipdb = "*"
 pre-commit = "*"
 pyyaml = "==4.2b1"
 coveralls = "*"
+pylint = "*"
 
 [packages]
 pytz = "==2018.9"

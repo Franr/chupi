@@ -1,16 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from drinks.api.rest.serializers import DrinkSerializer, DrinkWriteSerializer, IngredientSerializer
 from drinks.models import Drink, Ingredient
-from drinks.api.rest.serializers import (
-    DrinkSerializer,
-    IngredientSerializer,
-    DrinkWriteSerializer,
-)
 
 
 class UrlTests(TestCase):
@@ -20,19 +15,11 @@ class UrlTests(TestCase):
 
     def test_drink_urls(self):
         self.assertEqual(reverse("rest:rest-drinks-list"), "/api-rest/drinks/")
-        self.assertEqual(
-            reverse("rest:rest-drinks-detail", args=(self.whiscola.id,)),
-            "/api-rest/drinks/1/",
-        )
+        self.assertEqual(reverse("rest:rest-drinks-detail", args=(self.whiscola.id,)), "/api-rest/drinks/1/")
 
     def test_ingredients_urls(self):
-        self.assertEqual(
-            reverse("rest:rest-ingredients-list"), "/api-rest/ingredients/"
-        )
-        self.assertEqual(
-            reverse("rest:rest-ingredients-detail", args=(self.whiscola.id,)),
-            "/api-rest/ingredients/1/",
-        )
+        self.assertEqual(reverse("rest:rest-ingredients-list"), "/api-rest/ingredients/")
+        self.assertEqual(reverse("rest:rest-ingredients-detail", args=(self.whiscola.id,)), "/api-rest/ingredients/1/")
 
 
 class SerializersTests(TestCase):
@@ -45,39 +32,24 @@ class SerializersTests(TestCase):
     def test_drink_serializer(self):
         self.assertDictEqual(
             DrinkSerializer(instance=self.whiscola).data,
-            {
-                "id": 1,
-                "name": "Whiscola",
-                "ingredients": [
-                    {"id": 1, "name": "Whisky"},
-                    {"id": 2, "name": "Coca Cola"},
-                ],
-            },
+            {"id": 1, "name": "Whiscola", "ingredients": [{"id": 1, "name": "Whisky"}, {"id": 2, "name": "Coca Cola"}]},
         )
 
     def test_drink_deserializer(self):
-        serializer = DrinkSerializer(
-            data={"name": "Jameson", "ingredients": [{"name": self.whisky.name}]}
-        )
+        serializer = DrinkSerializer(data={"name": "Jameson", "ingredients": [{"name": self.whisky.name}]})
         self.assertTrue(serializer.is_valid())
 
     def test_drink_empty_ingredients_validation(self):
         serializer = DrinkSerializer(data={"name": "Nothing", "ingredients": []})
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(
-            serializer.errors["ingredients"]["non_field_errors"][0].code, "empty"
-        )
+        self.assertEqual(serializer.errors["ingredients"]["non_field_errors"][0].code, "empty")
 
     def test_drink_write_serializer(self):
-        serializer = DrinkWriteSerializer(
-            data={"name": "Empty", "ingredients": [self.whisky.id]}
-        )
+        serializer = DrinkWriteSerializer(data={"name": "Empty", "ingredients": [self.whisky.id]})
         self.assertTrue(serializer.is_valid())
 
     def test_drink_write_deserializer(self):
-        serializer = DrinkWriteSerializer(
-            data={"name": "Water", "ingredients": [self.whisky.id]}
-        )
+        serializer = DrinkWriteSerializer(data={"name": "Water", "ingredients": [self.whisky.id]})
         self.assertTrue(serializer.is_valid())
 
     def test_drink_write_empty_ingredients_validation(self):
@@ -86,9 +58,7 @@ class SerializersTests(TestCase):
         self.assertEqual(serializer.errors["ingredients"][0].code, "empty")
 
     def test_ingredient_serializer(self):
-        self.assertDictEqual(
-            IngredientSerializer(instance=self.whisky).data, {"id": 1, "name": "Whisky"}
-        )
+        self.assertDictEqual(IngredientSerializer(instance=self.whisky).data, {"id": 1, "name": "Whisky"})
 
     def test_ingredient_deserializer(self):
         serializer = IngredientSerializer(data={"name": "water"})
@@ -104,20 +74,11 @@ class ViewTests(APITestCase):
         self.whiscola.ingredients.add(self.whisky, self.coca_cola)
 
     def test_get_drink(self):
-        response = self.client.get(
-            reverse("rest:rest-drinks-detail", args=(self.whiscola.id,))
-        )
+        response = self.client.get(reverse("rest:rest-drinks-detail", args=(self.whiscola.id,)))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             response.json(),
-            {
-                "id": 1,
-                "name": "Whiscola",
-                "ingredients": [
-                    {"id": 1, "name": "Whisky"},
-                    {"id": 2, "name": "Coca Cola"},
-                ],
-            },
+            {"id": 1, "name": "Whiscola", "ingredients": [{"id": 1, "name": "Whisky"}, {"id": 2, "name": "Coca Cola"}]},
         )
 
     def test_create_drink(self):
@@ -138,10 +99,7 @@ class ViewTests(APITestCase):
         self.client.force_authenticate(user)
         # update
         url = reverse("rest:rest-drinks-detail", args=(self.whiscola.id,))
-        data = {
-            "name": "Whiscola with ice",
-            "ingredients": [self.whisky.id, self.coca_cola.id, self.ice_cube.id],
-        }
+        data = {"name": "Whiscola with ice", "ingredients": [self.whisky.id, self.coca_cola.id, self.ice_cube.id]}
         response = self.client.put(url, data, format="json")
         # asserts
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -160,9 +118,7 @@ class ViewTests(APITestCase):
         self.assertEqual(list(Drink.objects.last().ingredients.all()), [self.whisky])
 
     def test_get_ingredient(self):
-        response = self.client.get(
-            reverse("rest:rest-ingredients-detail", args=(self.whisky.id,))
-        )
+        response = self.client.get(reverse("rest:rest-ingredients-detail", args=(self.whisky.id,)))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), {"id": 1, "name": "Whisky"})
 
