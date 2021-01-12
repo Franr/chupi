@@ -14,7 +14,7 @@ class DrinkSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Drink
-        fields = ("id", "name", "ingredients")
+        fields = ("id", "name", "ingredients", "likes")
 
 
 class DrinkWriteSerializer(DrinkSerializer):

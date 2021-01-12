@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import SET_NULL
 
+from drinks.utils import RedisClient
+
 
 class NamedItem(models.Model):
     name = models.CharField(max_length=200)
@@ -70,7 +72,7 @@ class Ingredient(NamedItem):
     measure = models.ForeignKey(Measure, on_delete=SET_NULL, null=True, blank=True)
 
 
-class Drink(NamedItem):
+class Drink(NamedItem, RedisClient):
     """
     A combination of all the previous models.
     """
@@ -80,3 +82,12 @@ class Drink(NamedItem):
     technique = models.ForeignKey(Technique, on_delete=SET_NULL, null=True, blank=True)
     container = models.ForeignKey(Container, on_delete=SET_NULL, null=True, blank=True)
     recipe = models.TextField(blank=True)
+
+    @property
+    def key(self):
+        return f"drink:{self.id}"
+
+    @property
+    def likes(self):
+        total = self.redis_client.get(self.key)
+        return total or 0

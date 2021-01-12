@@ -27,6 +27,8 @@ class DrinkType(DjangoObjectType):
     class Meta:
         model = Drink
 
+    likes = graphene.Int(resolver=lambda d, _: d.likes)
+
 
 class IngredientType(DjangoObjectType):
     class Meta:
