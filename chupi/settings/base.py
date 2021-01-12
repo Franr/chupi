@@ -82,6 +82,7 @@ WSGI_APPLICATION = "chupi.wsgi.application"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.path.join(BASE_DIR, "db.sqlite3")}}
 
+REDIS_URL = "redis://localhost:6379/0"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
