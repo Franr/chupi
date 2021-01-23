@@ -1,6 +1,6 @@
 from django.urls import path
 
-from drinks.views import IndexView, DetailView, generate_error_view, status_badge_view
+from drinks.views import DetailView, IndexView, generate_error_view, status_badge_view
 
 drinks_templates_urlpatterns = (
     [

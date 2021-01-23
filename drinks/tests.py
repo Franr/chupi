@@ -11,9 +11,7 @@ class UrlTests(TestCase):
 
     def test_template_urls(self):
         self.assertEqual(reverse("template:index"), "/drinks/")
-        self.assertEqual(
-            reverse("template:detail", args=(self.whiscola.id,)), "/drinks/1/"
-        )
+        self.assertEqual(reverse("template:detail", args=(self.whiscola.id,)), "/drinks/1/")
 
     def test_error_url(self):
         self.assertEqual(reverse("template:error"), "/generate_error/")
@@ -51,10 +49,5 @@ class BadgeViewTests(TestCase):
         url = reverse("template:badge")
         self.assertDictEqual(
             self.client.get(url).json(),
-            {
-                "schemaVersion": 1,
-                "label": "server",
-                "message": "running",
-                "cacheSeconds": 60 * 60,
-            },
+            {"schemaVersion": 1, "label": "server", "message": "running", "cacheSeconds": 60 * 60},
         )

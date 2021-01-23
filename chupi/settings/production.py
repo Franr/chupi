@@ -12,3 +12,6 @@ django_heroku.settings(locals())
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()])
+
+CACHES["default"]["LOCATION"] = os.environ.get("REDIS_URL")
+CACHES["default"]["KEY_PREFIX"] = "prod"

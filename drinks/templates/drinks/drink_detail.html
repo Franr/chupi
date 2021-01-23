@@ -5,4 +5,6 @@
     {% for ingredient in object.ingredients.all %}
         <li>{{ ingredient.name }}</li>
     {% endfor %}
+    <br/>
+    likes: {{ object.likes }}
 {% endblock %}

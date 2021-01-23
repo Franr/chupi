@@ -1,5 +1,10 @@
+from django.core.cache import caches
 from django.db import models
 from django.db.models import SET_NULL
+
+from drinks.utils import RedisKeyMixin
+
+cache = caches["default"]
 
 
 class NamedItem(models.Model):
@@ -9,7 +14,7 @@ class NamedItem(models.Model):
         abstract = True
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 
 class Element(NamedItem):
@@ -20,8 +25,6 @@ class Element(NamedItem):
     - ...
     """
 
-    pass
-
 
 class Measure(NamedItem):
     """
@@ -30,8 +33,6 @@ class Measure(NamedItem):
     - a dash
     - ...
     """
-
-    pass
 
 
 class Technique(NamedItem):
@@ -42,8 +43,6 @@ class Technique(NamedItem):
     - ...
     """
 
-    pass
-
 
 class Container(NamedItem):
     """
@@ -53,8 +52,6 @@ class Container(NamedItem):
     - ...
     """
 
-    pass
-
 
 class Garnish(NamedItem):
     """
@@ -63,8 +60,6 @@ class Garnish(NamedItem):
     - orange slice
     - ...
     """
-
-    pass
 
 
 class Ingredient(NamedItem):
@@ -80,7 +75,7 @@ class Ingredient(NamedItem):
     measure = models.ForeignKey(Measure, on_delete=SET_NULL, null=True, blank=True)
 
 
-class Drink(NamedItem):
+class Drink(NamedItem, RedisKeyMixin):
     """
     A combination of all the previous models.
     """
@@ -90,3 +85,19 @@ class Drink(NamedItem):
     technique = models.ForeignKey(Technique, on_delete=SET_NULL, null=True, blank=True)
     container = models.ForeignKey(Container, on_delete=SET_NULL, null=True, blank=True)
     recipe = models.TextField(blank=True)
+
+    @property
+    def likes(self):
+        total = cache.get(self.redis_key)
+        return total and int(total) or 0
+
+    def add_like(self):
+        return int(cache.incr(self.redis_key))
+
+    def remove_like(self):
+        if self.likes <= 0:  # prevent negative likes
+            return 0
+        return int(cache.decr(self.redis_key))
+
+    def _set_likes(self, amount):
+        cache.set(self.redis_key, amount)

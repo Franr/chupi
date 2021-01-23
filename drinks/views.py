@@ -18,10 +18,5 @@ def generate_error_view(request):
 
 
 def status_badge_view(request):
-    data = {
-        "schemaVersion": 1,
-        "label": "server",
-        "message": "running",
-        "cacheSeconds": 60 * 60,
-    }
+    data = {"schemaVersion": 1, "label": "server", "message": "running", "cacheSeconds": 60 * 60}
     return JsonResponse(data)

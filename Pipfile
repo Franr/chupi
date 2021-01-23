@@ -5,11 +5,12 @@ verify_ssl = true
 
 [dev-packages]
 ipython = "==7.3.0"
-black = "==18.9b0"
+black = "==20.8b1"
 ipdb = "*"
-pre-commit = "*"
 pyyaml = "==4.2b1"
 coveralls = "*"
+pylint = "*"
+jedi = "==0.17.2"
 
 [packages]
 pytz = "==2018.9"
@@ -21,13 +22,14 @@ graphene-django = "==2.2.0"
 django-heroku = "==0.3.1"
 newrelic = "*"
 sentry-sdk = "==0.7.6"
-mypy = "*"
 psycopg2 = "*"
 gunicorn = "*"
 coreapi = "*"
 factory-boy = "*"
 urllib3 = "==1.24.3"
 djangorestframework-simplejwt = "*"
+redis = "*"
+django-redis = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"

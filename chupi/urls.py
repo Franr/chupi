@@ -14,12 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import include, path
 from rest_framework.documentation import include_docs_urls
 
-from drinks.api.rest.routers import rest_urlpatterns
 from drinks.api.graphql.urls import graphql_urlpatterns
+from drinks.api.rest.routers import rest_urlpatterns
 from drinks.urls import drinks_templates_urlpatterns
 from front_vue.urls import front_templates_urlpatterns
 
