@@ -5,7 +5,7 @@ from django.urls import reverse
 from graphql import GraphQLError
 
 from drinks.api.graphql import DRINK_NOT_FOUND, INGREDIENT_NOT_FOUND, INGREDIENTS_EMPTY
-from drinks.api.graphql.schema import CreateDrink, UpdateDrink, UpdateIngredient
+from drinks.api.graphql.schema import CreateDrink, UpdateDrink, UpdateIngredient, LikeDrink
 from drinks.factories import ContainerFactory, DrinkFactory, GarnishFactory, IngredientFactory, TechniqueFactory
 from drinks.models import Drink, Ingredient
 
@@ -42,6 +42,11 @@ class SchemaMutationsValidationsTests(TestCase):
         bad_id = 1000
         self.assertRaisesMessage(GraphQLError, INGREDIENT_NOT_FOUND, drink_schema.mutate, None, bad_id, "Water")
 
+    def test_like_wrong_id_validation(self):
+        like_schema = LikeDrink()
+        bad_id = -1
+        self.assertRaisesMessage(GraphQLError, DRINK_NOT_FOUND, like_schema.mutate, None, bad_id, True)
+
 
 class QueryAPI(TestCase):
     api_url = reverse("graphql:api")
@@ -65,6 +70,7 @@ class APIQueriesTestCase(QueryAPI):
             garnish=GarnishFactory(name="Lemon Slice"),
             container=ContainerFactory(name="Balloon Glass"),
             technique=TechniqueFactory(name="Direct"),
+            likes=5,
         )
 
     def test_all_drinks(self):
@@ -83,6 +89,7 @@ class APIQueriesTestCase(QueryAPI):
             drink(id:$id) {
                 id
                 name
+                likes
                 ingredients {
                     id
                     name
@@ -107,6 +114,7 @@ class APIQueriesTestCase(QueryAPI):
                     "drink": {
                         "id": "1",
                         "name": "Gin Tonic",
+                        "likes": 5,
                         "ingredients": [{"id": "1", "name": "Gin 60ml"}, {"id": "2", "name": "Tonic Soda 140ml"}],
                         "garnish": {"name": "Lemon Slice"},
                         "technique": {"name": "Direct"},
@@ -149,7 +157,7 @@ class APIMutationsTestCase(QueryAPI):
         self.whisky = IngredientFactory(name="Whisky")
         self.ice_cube = IngredientFactory(name="Ice Cube")
         self.coca_cola = IngredientFactory(name="Coca Cola")
-        self.whiscola = DrinkFactory(ingredients=(self.whisky, self.coca_cola))
+        self.whiscola = DrinkFactory(ingredients=(self.whisky, self.coca_cola), likes=5)
 
     def test_create_drink(self):
         query = """
@@ -261,4 +269,34 @@ class APIMutationsTestCase(QueryAPI):
         self.assertEqual(
             self.query(query, variables={"ingredient_id": self.whisky.id, "name": "Whisky Jamenson"}),
             {"data": {"updateIngredient": {"ok": True, "ingredient": {"id": "1", "name": "Whisky Jamenson"}}}},
+        )
+
+    def test_add_like(self):
+        query = """
+        mutation ($drink_id: Int, $add: Boolean) {
+            likeDrink(drinkId: $drink_id, add: $add) {
+                ok,
+                likes,
+                add
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"drink_id": self.whisky.id, "add": True}),
+            {"data": {"likeDrink": {"ok": True, "likes": 6, "add": True}}},
+        )
+
+    def test_remove_like(self):
+        query = """
+        mutation ($drink_id: Int, $add: Boolean) {
+            likeDrink(drinkId: $drink_id, add: $add) {
+                ok,
+                likes,
+                add
+            }
+        }
+        """
+        self.assertEqual(
+            self.query(query, variables={"drink_id": self.whisky.id, "add": False}),
+            {"data": {"likeDrink": {"ok": True, "likes": 4, "add": False}}},
         )

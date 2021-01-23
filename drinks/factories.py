@@ -55,3 +55,11 @@ class DrinkFactory(DjangoModelFactory):
             # A list of groups were passed in, use them
             for ingredient in extracted:
                 self.ingredients.add(ingredient)
+
+    @classmethod
+    def _create(cls, model_class, *args, **kwargs):
+        likes = kwargs.pop("likes", 0)
+        obj = model_class(*args, **kwargs)
+        obj.save()
+        obj._set_likes(likes)
+        return obj

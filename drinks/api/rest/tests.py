@@ -28,11 +28,17 @@ class SerializersTests(TestCase):
         self.coca_cola = Ingredient.objects.create(name="Coca Cola")
         self.whiscola = Drink.objects.create(name="Whiscola")
         self.whiscola.ingredients.add(self.whisky, self.coca_cola)
+        self.whiscola._set_likes(2)
 
     def test_drink_serializer(self):
         self.assertDictEqual(
             DrinkSerializer(instance=self.whiscola).data,
-            {"id": 1, "name": "Whiscola", "ingredients": [{"id": 1, "name": "Whisky"}, {"id": 2, "name": "Coca Cola"}]},
+            {
+                "id": 1,
+                "name": "Whiscola",
+                "ingredients": [{"id": 1, "name": "Whisky"}, {"id": 2, "name": "Coca Cola"}],
+                "likes": 2,
+            },
         )
 
     def test_drink_deserializer(self):
@@ -72,13 +78,19 @@ class ViewTests(APITestCase):
         self.ice_cube = Ingredient.objects.create(name="Ice Cube")
         self.whiscola = Drink.objects.create(name="Whiscola")
         self.whiscola.ingredients.add(self.whisky, self.coca_cola)
+        self.whiscola._set_likes(3)
 
     def test_get_drink(self):
         response = self.client.get(reverse("rest:rest-drinks-detail", args=(self.whiscola.id,)))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             response.json(),
-            {"id": 1, "name": "Whiscola", "ingredients": [{"id": 1, "name": "Whisky"}, {"id": 2, "name": "Coca Cola"}]},
+            {
+                "id": 1,
+                "name": "Whiscola",
+                "ingredients": [{"id": 1, "name": "Whisky"}, {"id": 2, "name": "Coca Cola"}],
+                "likes": 3,
+            },
         )
 
     def test_create_drink(self):
