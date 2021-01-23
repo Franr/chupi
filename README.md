@@ -8,10 +8,11 @@ I have acquired through the years, and reflect them on a single and tiny pet pro
 
 | Framework | Version |
 | ------ | ---- |
-| Python | 3.7 |
+| Python | 3.9 |
 | Django | 2.2 |
 | Django Rest Framework | 3.9 |
 | PostgreSQL | 11.4 |
+| Redis | 6.0 |
 | Vue.js | 2.6 |
 
 ## Service Interface
