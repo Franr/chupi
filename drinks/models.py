@@ -1,7 +1,10 @@
+from django.core.cache import caches
 from django.db import models
 from django.db.models import SET_NULL
 
-from drinks.utils import RedisClient
+from drinks.utils import RedisKeyMixin
+
+cache = caches["default"]
 
 
 class NamedItem(models.Model):
@@ -72,7 +75,7 @@ class Ingredient(NamedItem):
     measure = models.ForeignKey(Measure, on_delete=SET_NULL, null=True, blank=True)
 
 
-class Drink(NamedItem, RedisClient):
+class Drink(NamedItem, RedisKeyMixin):
     """
     A combination of all the previous models.
     """
@@ -84,10 +87,17 @@ class Drink(NamedItem, RedisClient):
     recipe = models.TextField(blank=True)
 
     @property
-    def key(self):
-        return f"drink:{self.id}"
-
-    @property
     def likes(self):
-        total = self.redis_client.get(self.key)
-        return total or 0
+        total = cache.get(self.redis_key)
+        return total and int(total) or 0
+
+    def add_like(self):
+        return int(cache.incr(self.redis_key))
+
+    def remove_like(self):
+        if self.likes <= 0:  # prevent negative likes
+            return 0
+        return int(cache.decr(self.redis_key))
+
+    def _set_likes(self, amount):
+        return int(cache.set(self.redis_key, amount))

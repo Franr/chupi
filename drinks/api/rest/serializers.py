@@ -19,3 +19,13 @@ class DrinkSerializer(serializers.HyperlinkedModelSerializer):
 
 class DrinkWriteSerializer(DrinkSerializer):
     ingredients = serializers.PrimaryKeyRelatedField(many=True, allow_empty=False, queryset=Ingredient.objects.all())
+
+
+class LikeWriteSerializer(serializers.Serializer):
+    add = serializers.BooleanField()
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drink
+        fields = ("likes",)

@@ -107,7 +107,30 @@ class UpdateDrink(graphene.Mutation):
             drink.ingredients.add(ing)
         drink.save()
 
-        return CreateDrink(drink=drink, ok=True)
+        return UpdateDrink(drink=drink, ok=True)
+
+
+class LikeDrink(graphene.Mutation):
+    class Arguments:
+        drink_id = graphene.Int()
+        add = graphene.Boolean()
+
+    ok = graphene.Boolean()
+    likes = graphene.Int()
+    add = graphene.Boolean()
+
+    def mutate(self, info, drink_id: int, add: bool):
+        try:
+            drink = Drink.objects.get(id=drink_id)
+        except Drink.DoesNotExist:
+            raise GraphQLError(DRINK_NOT_FOUND)
+
+        if add:
+            total = drink.add_like()
+        else:
+            total = drink.remove_like()
+
+        return LikeDrink(likes=total, add=add, ok=True)
 
 
 class CreateIngredient(graphene.Mutation):
@@ -148,6 +171,7 @@ class Mutation(graphene.ObjectType):
     update_drink = UpdateDrink.Field()
     create_ingredient = CreateIngredient.Field()
     update_ingredient = UpdateIngredient.Field()
+    like_drink = LikeDrink.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

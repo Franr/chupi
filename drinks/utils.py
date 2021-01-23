@@ -1,7 +1,10 @@
-import redis
+class RedisKeyMixin:
+    @property
+    def redis_key(self) -> str:
+        """
+        Generate a unique key based on the db table name and the primary key.
 
-from chupi.settings import REDIS_URL
-
-
-class RedisClient:
-    redis_client = redis.from_url(REDIS_URL, decode_responses=True)
+        :return: a unique key
+        """
+        key = f"{self._meta.db_table}:{self.pk}"
+        return key
