@@ -20,7 +20,6 @@ jobs:
         pipenv sync --dev
     - name: test, checks, linters
       run: |
-        pipenv run mypy .
         pipenv run black --check .
         pipenv run ./manage.py migrate
         pipenv run coverage run --source=drinks manage.py test
