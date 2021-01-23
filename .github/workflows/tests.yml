@@ -22,4 +22,4 @@ jobs:
       run: |
         pipenv run black --check .
         pipenv run ./manage.py migrate
-        pipenv run coverage run --source=drinks manage.py test
+        pipenv run coverage run --source=drinks manage.py test --settings chupi.settings.tests
