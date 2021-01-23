@@ -100,4 +100,4 @@ class Drink(NamedItem, RedisKeyMixin):
         return int(cache.decr(self.redis_key))
 
     def _set_likes(self, amount):
-        return int(cache.set(self.redis_key, amount))
+        cache.set(self.redis_key, amount)
