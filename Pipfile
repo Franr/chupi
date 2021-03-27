@@ -7,7 +7,7 @@ verify_ssl = true
 ipython = "==7.3.0"
 black = "==20.8b1"
 ipdb = "*"
-pyyaml = "==4.2b1"
+pyyaml = "==5.4"
 coveralls = "*"
 pylint = "*"
 jedi = "==0.17.2"
