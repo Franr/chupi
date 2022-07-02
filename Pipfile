@@ -5,7 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 ipython = "==7.3.0"
-black = "==20.8b1"
+black = "==22.3.0"
 ipdb = "*"
 pyyaml = "==5.4"
 coveralls = "*"
