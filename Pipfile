@@ -11,7 +11,8 @@ pyyaml = "==5.4"
 coveralls = "*"
 pylint = "*"
 jedi = "==0.17.2"
-factory-boy = "==13.14.0"
+factory-boy = "==3.2.1"
+pre-commit = "*"
 
 [packages]
 pytz = "==2018.9"
