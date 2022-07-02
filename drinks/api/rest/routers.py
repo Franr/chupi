@@ -5,8 +5,8 @@ from rest_framework_simplejwt import views as jwt_views
 from drinks.api.rest.views import DrinkViewSet, IngredientViewSet
 
 drinks_router = routers.DefaultRouter()
-drinks_router.register("drinks", DrinkViewSet, base_name="rest-drinks")
-drinks_router.register("ingredients", IngredientViewSet, base_name="rest-ingredients")
+drinks_router.register("drinks", DrinkViewSet, basename="rest-drinks")
+drinks_router.register("ingredients", IngredientViewSet, basename="rest-ingredients")
 
 
 rest_urlpatterns = (
