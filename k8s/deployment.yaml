@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chupi
+spec:
+  selector:
+    matchLabels:
+      app: chupi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: chupi
+    spec:
+      containers:
+      - name: chupi
+        image: franr/chupi:latest
+        ports:
+        - containerPort: 8000
