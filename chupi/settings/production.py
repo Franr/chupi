@@ -1,3 +1,5 @@
+import pymysql
+
 from .base import *
 
 import sentry_sdk
@@ -11,11 +13,13 @@ sentry_sdk.init(dsn=os.getenv("SENTRY_DSN"), integrations=[DjangoIntegration()])
 CACHES["default"]["LOCATION"] = os.getenv("REDIS_URL")
 CACHES["default"]["KEY_PREFIX"] = "prod"
 
-
 DATABASES["default"] = {
     "ENGINE": "django_psdb_engine",
     "NAME": os.getenv("DB_NAME"),
     "USER": os.getenv("DB_USERNAME"),
     "PASSWORD": os.getenv("DB_PASSWORD"),
     "HOST": os.getenv("DB_HOST"),
+    "OPTIONS": {"ssl": {"ca": os.environ.get("/etc/ssl/certs/ca-certificates.crt")}},
 }
+pymysql.version_info = (1, 4, 3, "final", 0)
+pymysql.install_as_MySQLdb()

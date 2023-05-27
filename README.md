@@ -35,14 +35,12 @@ It (try to) supports all the modern type of APIs that are lying around, includin
 
 To make the development easier, I rely on these free and cool tools:
 
-| status              | type                               | framework      | url                                     |
-|---------------------|------------------------------------|----------------|-----------------------------------------|
-| :heavy_check_mark:  | Continuous Integration Platform I  | Travis         | https://travis-ci.org/                  
-| :heavy_check_mark:  | Continuous Integration Platform II | Github Actions | https://github.com/features/actions     
-| :heavy_check_mark:  | Code Linter                        | Black          | https://black.readthedocs.io/en/stable/ 
-| :heavy_check_mark:  | Tests Coverage                     | Coveralls      | https://coveralls.io/                   
-| :heavy_check_mark:  | Docker Image Generation            | Docker Hub     | https://hub.docker.com/                 
-| :heavy_check_mark:  | Static Type Checker                | mypy           | http://mypy-lang.org/                   
+| status              | type                            | framework      | url                                     |
+|---------------------|---------------------------------|----------------|-----------------------------------------|
+| :heavy_check_mark:  | Continuous Integration Platform | Github Actions | https://github.com/features/actions     
+| :heavy_check_mark:  | Code Linter                     | Black          | https://black.readthedocs.io/en/stable/ 
+| :heavy_check_mark:  | Docker Image Generation         | Docker Hub     | https://hub.docker.com/                 
+| :heavy_check_mark:  | Static Type Checker             | mypy           | http://mypy-lang.org/                   
 
 ## Infrastructure
 
@@ -64,7 +62,6 @@ Also, I want to cover all the technologies used on the service/infrastructure le
 | :checkered_flag: | Vue.js Frontend        | https://chupi.herokuapp.com/front       
 | :hammer:         | Continuous Integration | https://github.com/features/actions     | [![CI Tests](https://github.com/Franr/chupi/workflows/CI%20Tests/badge.svg)](https://github.com/Franr/chupi/actions?query=workflow%3A%22CI+Tests%22) 
 | :whale2:         | Docker Image           | https://hub.docker.com/r/franr/chupi    | [![Build Status](https://img.shields.io/docker/cloud/build/franr/chupi.svg)](https://hub.docker.com/r/franr/chupi)                                   
-| :mag:            | Coveralls              | https://coveralls.io/github/Franr/chupi | [![Coverage Status](https://coveralls.io/repos/github/Franr/chupi/badge.svg?branch=master)](https://coveralls.io/github/Franr/chupi?branch=master)   
 
 ## Private Links
 
