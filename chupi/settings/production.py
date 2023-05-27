@@ -1,17 +1,25 @@
-import sentry_sdk
+import pymysql
 
 from .base import *
 
-INSTALLED_APPS += ("django_heroku",)
-
-# Configure Django App for Heroku.
-import django_heroku
-
-django_heroku.settings(locals())
-
+import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+from dotenv import load_dotenv
 
-sentry_sdk.init(dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()])
+load_dotenv()
 
-CACHES["default"]["LOCATION"] = os.environ.get("REDIS_URL")
+sentry_sdk.init(dsn=os.getenv("SENTRY_DSN"), integrations=[DjangoIntegration()])
+
+CACHES["default"]["LOCATION"] = os.getenv("REDIS_URL")
 CACHES["default"]["KEY_PREFIX"] = "prod"
+
+DATABASES["default"] = {
+    "ENGINE": "django_psdb_engine",
+    "NAME": os.getenv("DB_NAME"),
+    "USER": os.getenv("DB_USERNAME"),
+    "PASSWORD": os.getenv("DB_PASSWORD"),
+    "HOST": os.getenv("DB_HOST"),
+    "OPTIONS": {"ssl": {"ca": os.environ.get("/etc/ssl/certs/ca-certificates.crt")}},
+}
+pymysql.version_info = (1, 4, 3, "final", 0)
+pymysql.install_as_MySQLdb()

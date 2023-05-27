@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "chupi/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "chupi/wsgi.py"
+      }
+    ]
+}
